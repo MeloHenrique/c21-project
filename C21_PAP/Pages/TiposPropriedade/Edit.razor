@@ -1,0 +1,33 @@
+﻿@using C21_PAP.ViewModels.TiposPropriedades
+@using C21_PAP.Models.TiposPropriedades
+@inherits MvvmBlazor.Components.MvvmComponentBase
+@inject EditViewModel EditViewModel
+
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
+            <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.PropertyTypeModel.Name"/>
+            <MudCheckBox @bind-Checked="@EditViewModel.PropertyTypeModel.Active" Label="Ativo"></MudCheckBox>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await EditViewModel.EditAsync(); MudDialog.Close(DialogResult.Ok(EditViewModel.PropertyTypeModel.Name)); })">Editar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code{
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    
+    [Parameter] public TipoPropriedadeModel PropertyTypeModel { get; set; }
+
+    protected override void OnInitialized()
+    {
+        EditViewModel.PropertyTypeModel = PropertyTypeModel;
+        
+        base.OnInitialized();
+    }
+
+}

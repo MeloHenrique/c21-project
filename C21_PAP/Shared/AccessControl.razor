@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+
+<AuthorizeView>
+    <Authorized>
+        <MudMenu FullWidth="true" >
+            <ActivatorContent>
+                <span class="mr-2 d-flex" style="align-items: center;">@context?.User?.Identity?.Name</span>
+                <MudAvatar Image="@context.User.Claims.First(claim => claim.Type == "picture").Value"></MudAvatar>            
+            </ActivatorContent>
+            <ChildContent>
+                @*<MudMenuItem>Perfil</MudMenuItem>*@
+                <MudMenuItem OnClick="BeginSignOut">Log out</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C21-PAP", "C21-PAP\C21-PAP.csproj", "{7D77D1C4-61DB-4C98-99D1-8AF32413D17A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C21_PAP", "C21_PAP\C21_PAP.csproj", "{7D77D1C4-61DB-4C98-99D1-8AF32413D17A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

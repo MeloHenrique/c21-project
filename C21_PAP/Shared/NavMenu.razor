@@ -1,0 +1,33 @@
+﻿<MudAppBar Dense="true" Elevation="1">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleNavMenu" />
+    <MudSpacer />
+    <AccessControl />
+</MudAppBar>
+<MudDrawer @bind-Open="@collapseNavMenu" Elevation="1">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">Century21 Rubrica</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <MudNavGroup Title="Coordenação" Icon="@Icons.Filled.Approval">
+            <MudNavLink Href="/livro-registos">Livro de Registos</MudNavLink>
+            <MudNavLink Href="/registo-contatos">Registo de Contatos</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Title="Adminstração" Icon="@Icons.Filled.AdminPanelSettings" >
+            <MudNavLink Href="/origem-contatos">Origem de Contato</MudNavLink>
+            <MudNavLink Href="/tipos-propriedade">Tipos de Propriedade</MudNavLink>
+            <MudNavLink Href="/agentes">Agentes</MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+    private bool collapseNavMenu = false;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+}

@@ -1,0 +1,33 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="Century21Theme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="page"> 
+            <MudLayout>
+                <NavMenu/>
+                <MudMainContent Class="pt-16 px-16">
+                    @Body
+                </MudMainContent>
+            </MudLayout>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code{
+
+    MudTheme Century21Theme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = "#c8b992",
+            Secondary = "#746e59",
+            AppbarBackground = "#c8b992",
+        },
+    };
+
+}

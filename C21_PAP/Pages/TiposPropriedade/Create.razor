@@ -1,0 +1,23 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
+@using C21_PAP.ViewModels.TiposPropriedades
+@inherits MvvmBlazor.Components.MvvmComponentBase
+@inject CreateViewModel CreateViewModel
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="CreateViewModel.form" @bind-IsValid="@CreateViewModel.success" @bind-Errors="@CreateViewModel.errors">
+            <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.PropertyTypeModel.Name"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); MudDialog.Close(DialogResult.Ok(CreateViewModel.PropertyTypeModel.Name)); })">Criar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code{
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+}
