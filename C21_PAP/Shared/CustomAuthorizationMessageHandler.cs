@@ -10,7 +10,7 @@ public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
         : base(provider, navigationManager)
     {
         ConfigureHandler(
-            authorizedUrls: new[] { "https://web-worker-teste.henrique-melo.workers.dev/api/tipos-propriedade" }
+            authorizedUrls: new[] { "https://web-worker-teste.henrique-melo.workers.dev/*" }
         );
     }
 }

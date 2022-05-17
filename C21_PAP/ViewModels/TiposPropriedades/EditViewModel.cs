@@ -9,6 +9,8 @@ namespace C21_PAP.ViewModels.TiposPropriedades;
 
 public class EditViewModel : ViewModelBase
 {
+    public MudDialogInstance MudDialog;
+    
     readonly HttpClient HttpClient;
     readonly ISnackbar Snackbar;
     
@@ -38,9 +40,10 @@ public class EditViewModel : ViewModelBase
             }
             else
             {
-                Snackbar.Add($"Ocorreu um erro ao adicionar '{PropertyTypeModel.Name}'!", Severity.Error);
+                Snackbar.Add($"Ocorreu um erro ao editar '{PropertyTypeModel.Name}'!", Severity.Error);
 
             }
+            MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));
         }
     }
 }

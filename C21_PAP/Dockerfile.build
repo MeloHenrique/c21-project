@@ -1,6 +1,0 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:6.0
-WORKDIR /app
-COPY C21_PAP/C21_PAP.csproj C21_PAP/C21_PAP.csproj
-RUN dotnet restore CC21_PAP/C21_PAP.csproj
-COPY . .
-RUN dotnet publish -c Release -o /output --no-restore --nologo

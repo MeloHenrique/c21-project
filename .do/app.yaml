@@ -1,0 +1,11 @@
+name: c21
+static_sites:
+- name: site
+  github:
+    repo: MeloHenrique/c21-project
+    branch: main
+    deploy_on_push: true
+  dockerfile_path: C21_PAP/Dockerfile.build 
+  output_dir: /output/wwwroot
+  index_document: index.html
+  catchall_document: index.html

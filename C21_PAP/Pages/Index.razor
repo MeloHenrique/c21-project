@@ -1,0 +1,14 @@
+﻿@page "/"
+
+@inject NavigationManager Navigation
+
+@code {
+    
+    // Esta página apenas serve para testes neste momento, no futuro será a página inicial do sistema.
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo("tipos-propriedade");
+        base.OnInitialized();
+    }
+
+}

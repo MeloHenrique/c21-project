@@ -11,7 +11,7 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); MudDialog.Close(DialogResult.Ok(CreateViewModel.PropertyTypeModel.Name)); })">Criar</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); })">Criar</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -19,5 +19,11 @@
 @code{
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CreateViewModel.MudDialog = MudDialog;
+        base.OnInitialized();
+    }
 
 }

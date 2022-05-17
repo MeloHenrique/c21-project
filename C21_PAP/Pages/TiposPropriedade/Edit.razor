@@ -3,18 +3,19 @@
 @inherits MvvmBlazor.Components.MvvmComponentBase
 @inject EditViewModel EditViewModel
 
-
-<MudDialog>
-    <DialogContent>
-        <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
-            <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.PropertyTypeModel.Name"/>
-            <MudCheckBox @bind-Checked="@EditViewModel.PropertyTypeModel.Active" Label="Ativo"></MudCheckBox>
-        </MudForm>
-    </DialogContent>
-    <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await EditViewModel.EditAsync(); MudDialog.Close(DialogResult.Ok(EditViewModel.PropertyTypeModel.Name)); })">Editar</MudButton>
-    </DialogActions>
-</MudDialog>
+<AuthorizeView Policy="edit:property_types">
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
+                <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.PropertyTypeModel.Name"/>
+                <MudCheckBox @bind-Checked="@EditViewModel.PropertyTypeModel.Active" Label="Ativo"></MudCheckBox>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async () => { await EditViewModel.EditAsync();})">Editar</MudButton>
+        </DialogActions>
+    </MudDialog>
+</AuthorizeView>
 
 
 @code{
@@ -26,7 +27,7 @@
     protected override void OnInitialized()
     {
         EditViewModel.PropertyTypeModel = PropertyTypeModel;
-        
+        EditViewModel.MudDialog = MudDialog;
         base.OnInitialized();
     }
 

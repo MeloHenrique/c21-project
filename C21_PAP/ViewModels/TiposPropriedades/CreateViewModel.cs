@@ -11,7 +11,8 @@ public class CreateViewModel : ViewModelBase
 {
     readonly HttpClient HttpClient;
     readonly ISnackbar Snackbar;
-    
+
+    public MudDialogInstance MudDialog;
     public MudForm form;
     public string[] errors = {};
     public bool success = false;
@@ -30,7 +31,7 @@ public class CreateViewModel : ViewModelBase
 
         if (success)
         {
-            var res = await HttpClient.PostAsJsonAsync("/api/tipos-propriedade/", PropertyTypeModel);
+            var res = await HttpClient.PostAsJsonAsync("/create/", PropertyTypeModel);
             if (res.IsSuccessStatusCode)
             {
                 Snackbar.Add($"'{PropertyTypeModel.Name}' foi adicionado!", Severity.Success);
@@ -38,8 +39,9 @@ public class CreateViewModel : ViewModelBase
             else
             {
                 Snackbar.Add($"Ocorreu um erro ao adicionar '{PropertyTypeModel.Name}'!", Severity.Error);
-
             }
+            PropertyTypeModel = new();
+            MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));
         }
     }
 }

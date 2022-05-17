@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using C21_PAP;
 using C21_PAP.Shared;
-using C21_PAP.ViewModels.TiposPropriedades;
+using C21_PAP.ViewModels;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using MudBlazor;
@@ -30,12 +30,15 @@ builder.Services.AddOidcAuthentication(options =>
 }).AddAccountClaimsPrincipalFactory<ArrayClaimsPrincipalFactory<RemoteUserAccount>>();
 
 builder.Services.AddAuthorizationCore(options =>
-{
-    options.AddPolicy("read:agents", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "read:agents"));
+{ 
+    options.AddPolicy("read:property_types", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "read:property_types"));
+    options.AddPolicy("edit:property_types", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "edit:property_types"));
+    options.AddPolicy("create:property_type", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:property_type"));
 });
 builder.Services.AddMvvm();
-builder.Services.AddScoped<CreateViewModel>();
-builder.Services.AddScoped<EditViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.CreateViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.EditViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.ViewViewModel>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();
