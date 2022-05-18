@@ -13,6 +13,9 @@ public class ViewViewModel : ViewModelBase
     public MudTable<TipoPropriedadeModel> table;
     readonly HttpClient HttpClient;
     readonly IDialogService DialogService;
+    
+    private string? SearchString = null;
+
 
     
     public ViewViewModel(HttpClient client, IDialogService dialogService)
@@ -44,23 +47,36 @@ public class ViewViewModel : ViewModelBase
     
     public async Task<TableData<TipoPropriedadeModel>> ServerReload(TableState state)
     {
-        
-        var elements = await GetDataAsync(state);
-        return new TableData<TipoPropriedadeModel>() {TotalItems = elements.Count(), Items = elements};
+        var paginatedResponse = await GetDataAsync(state);
+        return new TableData<TipoPropriedadeModel>() {TotalItems = paginatedResponse.Total, Items = paginatedResponse.Documents};
     }
 
-    public async Task<IEnumerable<TipoPropriedadeModel>?> GetDataAsync(TableState? state = null)
+    public async Task<PaginatedResponse<TipoPropriedadeModel>?> GetDataAsync(TableState? state = null)
     {
+        TableRequestOptions options = new TableRequestOptions()
+        {
+            Page = state.Page,
+            PageSize = state.PageSize,
+            SortDirection = state.SortDirection,
+            SortLabel = state.SortLabel,
+            Search = SearchString
+        };
         try
         {
-            var res = await HttpClient.PostAsJsonAsync("/get-all/", state);
-            var elements = await res.Content.ReadFromJsonAsync<Response<TipoPropriedadeModel>>(); 
-            return elements?.Documents;
+            var res = await HttpClient.PostAsJsonAsync("/get-all/", options);
+            var paginatedResponse = await res.Content.ReadFromJsonAsync<PaginatedResponse<TipoPropriedadeModel>>(); 
+            return paginatedResponse;
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
             return null;
         }
+    }
+    
+    public void OnSearch(string text)
+    {
+        SearchString = text;
+        table.ReloadServerData();
     }
 }

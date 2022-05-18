@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net.Http.Json;
+using System.Text;
+using C21_PAP.Models;
 using C21_PAP.Models.TiposPropriedades;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -18,6 +20,8 @@ public class EditViewModel : ViewModelBase
     public string[] errors = {};
     public bool success = false;
 
+    public bool IsBusy = false;
+
     [Parameter] public TipoPropriedadeModel PropertyTypeModel { get; set; }
 
     public EditViewModel(HttpClient client, ISnackbar snackbar)
@@ -28,13 +32,13 @@ public class EditViewModel : ViewModelBase
     
     public async Task EditAsync()
     {
+        IsBusy = true;
         await form.Validate();
-        HttpContent header = new StringContent(JsonConvert.SerializeObject(PropertyTypeModel), Encoding.UTF8, "application/json");
-        var request = new HttpRequestMessage(new HttpMethod("PATCH"), "/api/tipos-propriedade/") {Content = header};
+        
         if (success)
         {
-            var res = await HttpClient.SendAsync(request);
-            if (res.IsSuccessStatusCode)
+            var request = await HttpClient.PostAsJsonAsync("/edit", PropertyTypeModel);
+            if (request.IsSuccessStatusCode)
             {
                 Snackbar.Add($"'{PropertyTypeModel.Name}' foi editado!", Severity.Success);
             }
@@ -44,6 +48,7 @@ public class EditViewModel : ViewModelBase
 
             }
             MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));
+            IsBusy = false;
         }
     }
 }

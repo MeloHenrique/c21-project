@@ -17,6 +17,8 @@ public class CreateViewModel : ViewModelBase
     public string[] errors = {};
     public bool success = false;
     
+    public bool IsBusy = false;
+    
     public CreatePropertyTypeModel PropertyTypeModel = new();
 
     public CreateViewModel(HttpClient client, ISnackbar snackbar)
@@ -27,6 +29,7 @@ public class CreateViewModel : ViewModelBase
 
     public async Task CreateAsync()
     {
+        IsBusy = true;
         await form.Validate();
 
         if (success)
@@ -42,6 +45,7 @@ public class CreateViewModel : ViewModelBase
             }
             PropertyTypeModel = new();
             MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));
+            IsBusy = false;
         }
     }
 }

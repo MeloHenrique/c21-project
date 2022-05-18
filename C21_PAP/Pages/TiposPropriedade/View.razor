@@ -13,7 +13,14 @@
 <AuthorizeView Policy="create:property_type">
     <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Tipo de Propriedade</MudButton>
 </AuthorizeView>
+
+
 <MudTable @ref="@_viewViewModel.table" ServerData="@(new Func<TableState, Task<TableData<TipoPropriedadeModel>>>(_viewViewModel.ServerReload))" Hover="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" Breakpoint="Breakpoint.None" HorizontalScrollbar="true">
+    <ToolBarContent>
+        <MudSpacer/>
+        <MudTextField T="string" ValueChanged="@(s => _viewViewModel.OnSearch(s))" Placeholder="Procurar" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-5"></MudTextField>
+    </ToolBarContent>
     <HeaderContent>
         <MudTh Style="text-align:start">Id</MudTh>
         <MudTh Style="text-align:center">Tipo de Propriedade</MudTh>
@@ -25,9 +32,13 @@
     <RowTemplate>
         <MudTd DataLabel="Id">@context._Id</MudTd>
         <MudTd DataLabel="Tipo de Propriedade">@context.Name</MudTd>
-        <MudTd DataLabel="Ativo"><MudCheckBox Disabled="true" Checked="@context.Active" Color="Color.Secondary"></MudCheckBox></MudTd>
+        <MudTd DataLabel="Ativo" Style="text-align:center"><MudCheckBox Disabled="true" Checked="@context.Active" Color="Color.Secondary"></MudCheckBox></MudTd>
         <AuthorizeView Context="authContext" Policy="edit:property_types">
-            <MudTd DataLabel=""><MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => _viewViewModel.EditDialog(context))"></MudIconButton></MudTd>
+            <MudTd  Style="text-align:end" DataLabel=""><MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => _viewViewModel.EditDialog(context))"></MudIconButton></MudTd>
         </AuthorizeView>
     </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Número de dados:" InfoFormat="{first_item}-{last_item} de {all_items}"/>
+    </PagerContent>
 </MudTable>
+
