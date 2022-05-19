@@ -16,7 +16,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddHttpClient("PropertyTypesAPI",
-    client => client.BaseAddress = new Uri("https://web-worker-teste.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+    client => client.BaseAddress = new Uri("https://property-types.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient("PropertyTypesAPI"));
