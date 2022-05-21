@@ -1,8 +1,48 @@
 ﻿@page "/origem-contatos"
+@using C21_PAP.ViewModels.ContactOrigins
+@using C21_PAP.Models.ContactOrigins
 
 @inject AuthenticationStateProvider AuthState
+@inject ViewViewModel _viewViewModel
 @layout MainLayout
 
-@* TODO: Modificar a página para corresponder às origens de contatos*@
+@attribute [Authorize(Policy = "read:contact_origins")]
 
 <PageTitle>Origens de Contatos</PageTitle>
+
+<AuthorizeView Policy="create:contact_origin">
+    <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Origem de Contato</MudButton>
+</AuthorizeView>
+
+
+<MudTable @ref="@_viewViewModel.Table" ServerData="@(new Func<TableState, Task<TableData<ContactOriginsModel>>>(_viewViewModel.ServerReload))" Hover="true" FixedHeader="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" HorizontalScrollbar="true">
+    <ToolBarContent>
+        <MudSpacer/>
+        <MudTextField T="string" ValueChanged="@(s => _viewViewModel.OnSearch(s))" Placeholder="Procurar" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-5">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Style="text-align:start">Id</MudTh>
+        <MudTh Style="text-align:center">Tipo de Propriedade</MudTh>
+        <MudTh Style="text-align:center">Ativo</MudTh>
+        <AuthorizeView Policy="edit:contact_origins">
+            <MudTh Style="text-align:end"></MudTh>
+        </AuthorizeView>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd HideSmall="true" DataLabel="Id">@context._Id</MudTd>
+        <MudTd DataLabel="Tipo de Propriedade">@context.Name</MudTd>
+        <MudTd DataLabel="Ativo" Style="text-align:center">
+            <MudCheckBox Disabled="true" Checked="@context.Active" Color="Color.Secondary"></MudCheckBox>
+        </MudTd>
+        @*<AuthorizeView Context="authContext" Policy="edit:property_types">
+            <MudTd Style="text-align:end" DataLabel="">
+                <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small" OnClick="@(() => _viewViewModel.EditDialog(context))"></MudIconButton>
+            </MudTd>
+        </AuthorizeView>*@
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Número de dados:" InfoFormat="{first_item}-{last_item} de {all_items}"/>
+    </PagerContent>
+</MudTable>

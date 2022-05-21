@@ -17,6 +17,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddHttpClient<PropertyTypesService>(client => client.BaseAddress = new Uri("https://property-types.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+builder.Services.AddHttpClient<ContactOriginsService>(client => client.BaseAddress = new Uri("https://contact-origin.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient("PropertyTypesAPI"));
@@ -42,6 +43,7 @@ builder.Services.AddMvvm();
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.CreateViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.EditViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.ViewViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.ViewViewModel>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();
