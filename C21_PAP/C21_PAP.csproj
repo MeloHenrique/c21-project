@@ -30,8 +30,4 @@
       <Compile Remove="Shared\Authorize\AuthorizeByPermission.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services" />
-    </ItemGroup>
-
 </Project>

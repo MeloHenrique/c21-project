@@ -5,7 +5,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <MudMenu FullWidth="true" >
+        <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomLeft">
             <ActivatorContent>
                 <span class="mr-2 d-flex" style="align-items: center;">@context?.User?.Identity?.Name</span>
                 <MudAvatar Image="@context.User.Claims.First(claim => claim.Type == "picture").Value"></MudAvatar>            

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using C21_PAP.Models.TiposPropriedades;
+using C21_PAP.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MvvmBlazor.ViewModel;
@@ -9,7 +10,7 @@ namespace C21_PAP.ViewModels.TiposPropriedades;
 
 public class CreateViewModel : ViewModelBase
 {
-    readonly HttpClient HttpClient;
+    readonly PropertyTypesService PropertyTypesService;
     readonly ISnackbar Snackbar;
 
     public MudDialogInstance MudDialog;
@@ -21,9 +22,9 @@ public class CreateViewModel : ViewModelBase
     
     public CreatePropertyTypeModel PropertyTypeModel = new();
 
-    public CreateViewModel(HttpClient client, ISnackbar snackbar)
+    public CreateViewModel(PropertyTypesService propertyTypesService, ISnackbar snackbar)
     {
-        HttpClient = client;
+        PropertyTypesService = propertyTypesService;
         Snackbar = snackbar;
     }
 
@@ -34,14 +35,21 @@ public class CreateViewModel : ViewModelBase
 
         if (success)
         {
-            var res = await HttpClient.PostAsJsonAsync("/create/", PropertyTypeModel);
-            if (res.IsSuccessStatusCode)
+            try
             {
-                Snackbar.Add($"'{PropertyTypeModel.Name}' foi adicionado!", Severity.Success);
+                var res = await PropertyTypesService.CreateAsync(PropertyTypeModel);
+                if (res.IsSuccessStatusCode)
+                {
+                    Snackbar.Add($"'{PropertyTypeModel.Name}' foi adicionado!", Severity.Success);
+                }
+                else
+                {
+                    Snackbar.Add($"Ocorreu um erro ao adicionar '{PropertyTypeModel.Name}'!", Severity.Error);
+                }
             }
-            else
+            catch
             {
-                Snackbar.Add($"Ocorreu um erro ao adicionar '{PropertyTypeModel.Name}'!", Severity.Error);
+                throw;
             }
             PropertyTypeModel = new();
             MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));

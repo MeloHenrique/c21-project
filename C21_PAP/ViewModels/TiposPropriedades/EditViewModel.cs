@@ -2,6 +2,7 @@
 using System.Text;
 using C21_PAP.Models;
 using C21_PAP.Models.TiposPropriedades;
+using C21_PAP.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MvvmBlazor.ViewModel;
@@ -13,7 +14,7 @@ public class EditViewModel : ViewModelBase
 {
     public MudDialogInstance MudDialog;
     
-    readonly HttpClient HttpClient;
+    readonly PropertyTypesService PropertyTypesService;
     readonly ISnackbar Snackbar;
     
     public MudForm form;
@@ -24,9 +25,9 @@ public class EditViewModel : ViewModelBase
 
     [Parameter] public TipoPropriedadeModel PropertyTypeModel { get; set; }
 
-    public EditViewModel(HttpClient client, ISnackbar snackbar)
+    public EditViewModel(PropertyTypesService propertyTypesService, ISnackbar snackbar)
     {
-        HttpClient = client;
+        PropertyTypesService = propertyTypesService;
         Snackbar = snackbar;
     }
     
@@ -37,15 +38,23 @@ public class EditViewModel : ViewModelBase
         
         if (success)
         {
-            var request = await HttpClient.PostAsJsonAsync("/edit", PropertyTypeModel);
-            if (request.IsSuccessStatusCode)
+            try
             {
-                Snackbar.Add($"'{PropertyTypeModel.Name}' foi editado!", Severity.Success);
-            }
-            else
-            {
-                Snackbar.Add($"Ocorreu um erro ao editar '{PropertyTypeModel.Name}'!", Severity.Error);
+                var response = await PropertyTypesService.EditAsync(PropertyTypeModel);
+                if (response.IsSuccessStatusCode)
+                {
+                    Snackbar.Add($"'{PropertyTypeModel.Name}' foi editado!", Severity.Success);
+                }
+                else
+                {
+                    Snackbar.Add($"Ocorreu um erro ao editar '{PropertyTypeModel.Name}'!", Severity.Error);
 
+                }
+
+            }
+            catch
+            {
+                throw;
             }
             MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));
             IsBusy = false;

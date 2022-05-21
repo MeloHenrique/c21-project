@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using C21_PAP.Models;
 using C21_PAP.Models.TiposPropriedades;
 using C21_PAP.Pages.TiposPropriedade;
+using C21_PAP.Services;
 using MudBlazor;
 
 namespace C21_PAP.ViewModels.TiposPropriedades;
@@ -11,16 +12,16 @@ namespace C21_PAP.ViewModels.TiposPropriedades;
 public class ViewViewModel : ViewModelBase
 {
     public MudTable<TipoPropriedadeModel> table;
-    readonly HttpClient HttpClient;
+    readonly PropertyTypesService PropertyTypesService;
     readonly IDialogService DialogService;
     
     private string? SearchString = null;
 
 
     
-    public ViewViewModel(HttpClient client, IDialogService dialogService)
+    public ViewViewModel(PropertyTypesService propertyTypesService, IDialogService dialogService)
     {
-        HttpClient = client;
+        PropertyTypesService = propertyTypesService;
         DialogService = dialogService;
     }
 
@@ -61,17 +62,9 @@ public class ViewViewModel : ViewModelBase
             SortLabel = state.SortLabel,
             Search = SearchString
         };
-        try
-        {
-            var res = await HttpClient.PostAsJsonAsync("/get-all/", options);
-            var paginatedResponse = await res.Content.ReadFromJsonAsync<PaginatedResponse<TipoPropriedadeModel>>(); 
-            return paginatedResponse;
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-            return null;
-        }
+
+        var paginatedResponse = await PropertyTypesService.GetAsync(options);
+        return paginatedResponse;
     }
     
     public void OnSearch(string text)
