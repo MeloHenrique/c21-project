@@ -44,6 +44,8 @@ builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.CreateViewModel>
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.EditViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.ViewViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.ViewViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.CreateViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.EditViewModel>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();

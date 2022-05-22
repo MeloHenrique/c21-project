@@ -36,11 +36,11 @@
         <MudTd DataLabel="Ativo" Style="text-align:center">
             <MudCheckBox Disabled="true" Checked="@context.Active" Color="Color.Secondary"></MudCheckBox>
         </MudTd>
-        @*<AuthorizeView Context="authContext" Policy="edit:property_types">
+        <AuthorizeView Context="authContext" Policy="edit:contact_origins">
             <MudTd Style="text-align:end" DataLabel="">
                 <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small" OnClick="@(() => _viewViewModel.EditDialog(context))"></MudIconButton>
             </MudTd>
-        </AuthorizeView>*@
+        </AuthorizeView>
     </RowTemplate>
     <PagerContent>
         <MudTablePager RowsPerPageString="Número de dados:" InfoFormat="{first_item}-{last_item} de {all_items}"/>

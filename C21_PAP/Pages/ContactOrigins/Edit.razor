@@ -1,5 +1,31 @@
-﻿<h3>Edit</h3>
+﻿@using C21_PAP.ViewModels.ContactOrigins
+@using C21_PAP.Models.ContactOrigins
+@inherits MvvmBlazor.Components.MvvmComponentBase
+@inject EditViewModel EditViewModel
+
+<AuthorizeView Policy="edit:property_types">
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
+                <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.ContactOriginsModel.Name"/>
+                <MudCheckBox @bind-Checked="@EditViewModel.ContactOriginsModel.Active" Label="Ativo"></MudCheckBox>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Disabled="EditViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async () => { await EditViewModel.EditAsync();})">Editar</MudButton>
+        </DialogActions>
+    </MudDialog>
+</AuthorizeView>
 
 @code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     
+    [Parameter] public ContactOriginsModel ContactOriginsModel { get; set; }
+
+    protected override void OnInitialized()
+    {
+        EditViewModel.ContactOriginsModel = ContactOriginsModel;
+        EditViewModel.MudDialog = MudDialog;
+        base.OnInitialized();
+    }
 }

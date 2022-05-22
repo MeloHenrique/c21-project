@@ -1,5 +1,27 @@
-﻿<h3>Create</h3>
+﻿@using C21_PAP.ViewModels.ContactOrigins
+@inherits MvvmBlazor.Components.MvvmComponentBase
+@inject CreateViewModel CreateViewModel
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="CreateViewModel.form" @bind-IsValid="@CreateViewModel.success" @bind-Errors="@CreateViewModel.errors">
+            <MudTextField T="string" Label="Origem de Contato" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateContactOrigin.Name"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Disabled="CreateViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); })">Criar</MudButton>
+    </DialogActions>
+</MudDialog>
+
 
 @code {
+    
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CreateViewModel.MudDialog = MudDialog;
+        base.OnInitialized();
+    }
     
 }

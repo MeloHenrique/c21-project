@@ -34,4 +34,32 @@ public class ContactOriginsService
             throw;
         }
     }
+    
+    public async Task<HttpResponseMessage> CreateAsync(CreateContactOriginModel model)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("/create/", model);
+            return response;
+        }
+        catch(AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            throw;
+        }
+    }
+    
+    public async Task<HttpResponseMessage> EditAsync(ContactOriginsModel model)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("/edit", model);   
+            return response;
+        }
+        catch(AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            throw;
+        }
+    }
 }
