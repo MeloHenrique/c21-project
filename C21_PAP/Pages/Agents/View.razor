@@ -41,10 +41,10 @@
         <MudTd DataLabel="Id" Style="text-align:center"> 
             <MudAvatar Size="Size.Medium"> @context.Name.First()</MudAvatar> 
         </MudTd>
-        <MudTd HideSmall="true" DataLabel="Id">@context._Id</MudTd>
+        <MudTd DataLabel="Id">@context._Id</MudTd>
         <MudTd DataLabel="Nome">@context.Name</MudTd>
         <MudTd DataLabel="Email">@context.Email</MudTd>
-        <MudTd DataLabel="Data de Entrada">@context.DataEntry</MudTd>
+        <MudTd DataLabel="Data de Entrada">@context.DataEntry.Value.ToString("dd/MM/yyyy")</MudTd>
         <MudTd DataLabel="Contactos">@context.Contacts</MudTd>
         <MudTd DataLabel="Nif">@context.Nif</MudTd>
         <MudTd DataLabel="Tipo">@context.Type</MudTd>
