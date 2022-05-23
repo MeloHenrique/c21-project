@@ -57,7 +57,7 @@ public class EditViewModel : ViewModelBase
                 throw;
             }
             MudDialog.Close(DialogResult.Ok(PropertyTypeModel.Name));
-            IsBusy = false;
         }
+        IsBusy = false;
     }
 }

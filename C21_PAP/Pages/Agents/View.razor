@@ -1,0 +1,65 @@
+﻿@page "/agentes"
+@using C21_PAP.ViewModels.Agents
+@using C21_PAP.Models.Agents
+
+@inject AuthenticationStateProvider AuthState
+@inject ViewViewModel _viewViewModel
+@layout MainLayout
+
+
+@attribute [Authorize(Policy = "read:agents")]
+
+<PageTitle>Agentes</PageTitle>
+
+<AuthorizeView Policy="create:agent">
+    <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Agente</MudButton>
+</AuthorizeView>
+
+
+<MudTable @ref="@_viewViewModel.Table" ServerData="@(new Func<TableState, Task<TableData<AgentModel>>>(_viewViewModel.ServerReload))" Hover="true" FixedHeader="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" HorizontalScrollbar="true">
+    <ToolBarContent>
+        <MudSpacer/>
+        <MudTextField T="string" ValueChanged="@(s => _viewViewModel.OnSearch(s))" Placeholder="Procurar" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-5">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Style="text-align:start"></MudTh>
+        <MudTh Style="text-align:start">Id</MudTh>
+        <MudTh Style="text-align:center">Nome</MudTh>
+        <MudTh Style="text-align:center">Email</MudTh>
+        <MudTh Style="text-align:center">Data de Entrada</MudTh>
+        <MudTh Style="text-align:center">Contactos</MudTh>
+        <MudTh Style="text-align:center">Nif</MudTh>
+        <MudTh Style="text-align:center">Tipo</MudTh>
+        <MudTh Style="text-align:center">Ativo</MudTh>
+        <AuthorizeView Policy="edit:agents">
+            <MudTh Style="text-align:end"></MudTh>
+        </AuthorizeView>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id" Style="text-align:center"> 
+            <MudAvatar Size="Size.Medium"> @context.Name.First()</MudAvatar> 
+        </MudTd>
+        <MudTd HideSmall="true" DataLabel="Id">@context._Id</MudTd>
+        <MudTd DataLabel="Nome">@context.Name</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="Data de Entrada">@context.DataEntry</MudTd>
+        <MudTd DataLabel="Contactos">@context.Contacts</MudTd>
+        <MudTd DataLabel="Nif">@context.Nif</MudTd>
+        <MudTd DataLabel="Tipo">@context.Type</MudTd>
+        <MudTd DataLabel="Ativo" Style="text-align:center">
+            <MudCheckBox Disabled="true" Checked="@context.Active" Color="Color.Secondary"></MudCheckBox>
+        </MudTd>
+        @*
+        <AuthorizeView Context="authContext" Policy="edit:agents">
+            <MudTd Style="text-align:end" DataLabel="">
+                <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small" OnClick="@(() => _viewViewModel.EditDialog(context))"></MudIconButton>
+            </MudTd>
+        </AuthorizeView>
+        *@
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Número de dados:" InfoFormat="{first_item}-{last_item} de {all_items}"/>
+    </PagerContent>
+</MudTable>

@@ -4,7 +4,6 @@ using MudBlazor.Services;
 using C21_PAP;
 using C21_PAP.Services;
 using C21_PAP.Shared;
-using C21_PAP.ViewModels;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using MudBlazor;
@@ -18,6 +17,7 @@ builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddHttpClient<PropertyTypesService>(client => client.BaseAddress = new Uri("https://property-types.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<ContactOriginsService>(client => client.BaseAddress = new Uri("https://contact-origin.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+builder.Services.AddHttpClient<AgentService>(client => client.BaseAddress = new Uri("https://agents.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient("PropertyTypesAPI"));
@@ -37,7 +37,10 @@ builder.Services.AddAuthorizationCore(options =>
     options.AddPolicy("create:property_type", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:property_type")); 
     options.AddPolicy("read:contact_origins", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "read:contact_origins"));
     options.AddPolicy("edit:contact_origins", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "edit:contact_origins"));
-    options.AddPolicy("create:contact_origin", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:contact_origin"));
+    options.AddPolicy("create:contact_origin", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:contact_origin"));    
+    options.AddPolicy("read:agents", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "read:agents"));
+    options.AddPolicy("edit:agents", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "edit:agents"));
+    options.AddPolicy("create:agent", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:agent"));
 });
 builder.Services.AddMvvm();
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.CreateViewModel>();
@@ -46,6 +49,8 @@ builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.ViewViewModel>()
 builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.ViewViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.CreateViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.EditViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.Agents.ViewViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.Agents.CreateViewModel>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();

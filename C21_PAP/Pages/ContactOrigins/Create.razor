@@ -2,16 +2,20 @@
 @inherits MvvmBlazor.Components.MvvmComponentBase
 @inject CreateViewModel CreateViewModel
 
-<MudDialog>
-    <DialogContent>
-        <MudForm @ref="CreateViewModel.form" @bind-IsValid="@CreateViewModel.success" @bind-Errors="@CreateViewModel.errors">
-            <MudTextField T="string" Label="Origem de Contato" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateContactOrigin.Name"/>
-        </MudForm>
-    </DialogContent>
-    <DialogActions>
-        <MudButton Disabled="CreateViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); })">Criar</MudButton>
-    </DialogActions>
-</MudDialog>
+
+<AuthorizeView Policy="create:contact_origin">
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="CreateViewModel.form" @bind-IsValid="@CreateViewModel.success" @bind-Errors="@CreateViewModel.errors">
+                <MudTextField T="string" Label="Origem de Contato" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateContactOrigin.Name"/>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Disabled="CreateViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); })">Criar</MudButton>
+        </DialogActions>
+    </MudDialog>
+</AuthorizeView>
+
 
 
 @code {

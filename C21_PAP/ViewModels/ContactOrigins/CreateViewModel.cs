@@ -1,10 +1,11 @@
 ﻿using C21_PAP.Models.ContactOrigins;
 using C21_PAP.Services;
 using MudBlazor;
+using MvvmBlazor.ViewModel;
 
 namespace C21_PAP.ViewModels.ContactOrigins;
 
-public class CreateViewModel
+public class CreateViewModel : ViewModelBase
 {
     readonly ContactOriginsService ContactOriginsService;
     readonly ISnackbar Snackbar;
@@ -49,7 +50,7 @@ public class CreateViewModel
             }
             MudDialog.Close(DialogResult.Ok(CreateContactOrigin.Name));
             CreateContactOrigin = new();
-            IsBusy = false;
         }
+        IsBusy = false;
     }
 }

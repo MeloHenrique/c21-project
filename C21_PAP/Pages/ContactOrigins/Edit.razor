@@ -3,11 +3,11 @@
 @inherits MvvmBlazor.Components.MvvmComponentBase
 @inject EditViewModel EditViewModel
 
-<AuthorizeView Policy="edit:property_types">
+<AuthorizeView Policy="edit:contact_origins">
     <MudDialog>
         <DialogContent>
             <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
-                <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.ContactOriginsModel.Name"/>
+                <MudTextField T="string" Label="Origem de Contato" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.ContactOriginsModel.Name"/>
                 <MudCheckBox @bind-Checked="@EditViewModel.ContactOriginsModel.Active" Label="Ativo"></MudCheckBox>
             </MudForm>
         </DialogContent>

@@ -1,0 +1,58 @@
+﻿@using C21_PAP.ViewModels.Agents
+@inject CreateViewModel CreateViewModel
+
+
+
+<AuthorizeView Policy="create:agent">
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="CreateViewModel.form" @bind-IsValid="@CreateViewModel.success" @bind-Errors="@CreateViewModel.errors">
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Nome" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateAgentModel.Name"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Email" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateAgentModel.Email"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudDatePicker MaxDate="DateTime.Today" Label="Data de Entrada" @bind-Date="CreateViewModel.CreateAgentModel.DataEntry" DisableToolbar="true" Required="true" RequiredError="Não pode estar vazio!"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Contato" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateAgentModel.Contacts"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField Label="Nif" Required="true" Format="000000000" RequiredError="Não pode estar vazio!" @bind-Value="@CreateViewModel.CreateAgentModel.Nif" MaxLength="9"></MudNumericField>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudSelect T="string" @bind-Value="@CreateViewModel.CreateAgentModel.Type" Required="true" Label="Tipo de Agente" AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var e in CreateViewModel.AgentTypes)
+                            {
+                                <MudSelectItem Value="e" />
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Disabled="CreateViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async() => { await CreateViewModel.CreateAsync(); })">Criar</MudButton>
+        </DialogActions>
+    </MudDialog>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CreateViewModel.MudDialog = MudDialog;
+        base.OnInitialized();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CreateViewModel.getAgentTypes();
+        await base.OnInitializedAsync();
+    }
+
+}
