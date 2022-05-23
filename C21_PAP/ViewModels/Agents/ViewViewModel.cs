@@ -15,6 +15,8 @@ public class ViewViewModel : ViewModelBase
     
     private string? SearchString = null;
     
+    public bool isBusy = false;
+    
     public ViewViewModel(AgentService agentService, IDialogService dialogService)
     {
         AgentService = agentService;
@@ -57,4 +59,15 @@ public class ViewViewModel : ViewModelBase
             await Table.ReloadServerData();
         }
     }
+    
+    public async Task RefreshTable()
+    {
+        if (!isBusy)
+        {
+            isBusy = true;
+            await Table.ReloadServerData();
+            isBusy = false;
+        }    
+    }
+
 }

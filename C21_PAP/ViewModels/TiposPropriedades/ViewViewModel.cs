@@ -17,6 +17,7 @@ public class ViewViewModel : ViewModelBase
     
     private string? SearchString = null;
 
+    public bool isBusy = false;
 
     
     public ViewViewModel(PropertyTypesService propertyTypesService, IDialogService dialogService)
@@ -45,6 +46,17 @@ public class ViewViewModel : ViewModelBase
             await table.ReloadServerData();
         }
     }
+    
+    public async Task RefreshTable()
+    {
+        if (!isBusy)
+        {
+            isBusy = true;
+            await table.ReloadServerData();
+            isBusy = false;
+        }
+    }
+
     
     public async Task<TableData<TipoPropriedadeModel>> ServerReload(TableState state)
     {

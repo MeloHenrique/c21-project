@@ -11,12 +11,15 @@
 <PageTitle>Origens de Contatos</PageTitle>
 
 <AuthorizeView Policy="create:contact_origin">
-    <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Origem de Contato</MudButton>
+
+            <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Origem de Contato</MudButton>
+    
 </AuthorizeView>
 
 
 <MudTable @ref="@_viewViewModel.Table" ServerData="@(new Func<TableState, Task<TableData<ContactOriginsModel>>>(_viewViewModel.ServerReload))" Hover="true" FixedHeader="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" HorizontalScrollbar="true">
     <ToolBarContent>
+        <MudFab Disabled="_viewViewModel.isBusy" IconColor="Color.Primary" Color="Color.Transparent" StartIcon="@Icons.Material.Sharp.Refresh" Size="Size.Small" OnClick="@(async() => { await _viewViewModel.RefreshTable(); })"/>
         <MudSpacer/>
         <MudTextField T="string" ValueChanged="@(s => _viewViewModel.OnSearch(s))" Placeholder="Procurar" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-5">

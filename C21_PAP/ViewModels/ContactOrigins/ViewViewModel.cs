@@ -15,6 +15,8 @@ public class ViewViewModel : ViewModelBase
     
     private string? SearchString = null;
     
+    public bool isBusy = false;
+    
     public ViewViewModel(ContactOriginsService contactOriginsService, IDialogService dialogService)
     {
         ContactOriginsService = contactOriginsService;
@@ -55,6 +57,16 @@ public class ViewViewModel : ViewModelBase
         if (!result.Cancelled)
         {
             await Table.ReloadServerData();
+        }
+    }
+
+    public async Task RefreshTable()
+    {
+        if (!isBusy)
+        {
+            isBusy = true;
+            await Table.ReloadServerData();
+            isBusy = false;
         }
     }
     
