@@ -69,5 +69,16 @@ public class ViewViewModel : ViewModelBase
             isBusy = false;
         }    
     }
+    
+    public async void EditDialog(AgentModel model)
+    {
+        var parameters = new DialogParameters(){ ["AgentModel"]=model };;
+        var dialog = DialogService.Show<Edit>("Editar Agente", parameters, new DialogOptions(){ CloseButton = true, FullWidth = true});
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await Table.ReloadServerData();
+        }
+    }
 
 }

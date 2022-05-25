@@ -12,7 +12,7 @@ public class AgentModel
     
     public string Contacts { get; set; }
     
-    public string Nif { get; set; }
+    public int Nif { get; set; }
     
     public string Type { get; set; }
     

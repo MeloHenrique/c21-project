@@ -72,4 +72,18 @@ public class AgentService
         }
     }
     
+    public async Task<HttpResponseMessage> EditAsync(AgentModel model)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("/edit", model);   
+            return response;
+        }
+        catch(AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            throw;
+        }
+    }
+    
 }

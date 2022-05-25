@@ -1,0 +1,63 @@
+﻿@using C21_PAP.ViewModels.Agents
+@using C21_PAP.Models.Agents
+@inject EditViewModel EditViewModel
+
+
+<AuthorizeView Policy="edit:agents">
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Nome" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.AgentModel.Name"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Email" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.AgentModel.Email"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudDatePicker MaxDate="DateTime.Today" Label="Data de Entrada" @bind-Date="EditViewModel.AgentModel.DataEntry" DisableToolbar="true" Required="true" RequiredError="Não pode estar vazio!"/>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudTextField T="string" Label="Contato" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.AgentModel.Contacts"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField Label="Nif" Required="true" Format="000000000" RequiredError="Não pode estar vazio!" @bind-Value="@(EditViewModel.AgentModel.Nif)" MaxLength="9"></MudNumericField>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudSelect T="string" @bind-Value="@EditViewModel.AgentModel.Type" Required="true" Label="Tipo de Agente" AnchorOrigin="Origin.BottomCenter">
+                            @foreach (var e in EditViewModel.AgentTypes)
+                            {
+                                <MudSelectItem Value="e"/>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudCheckBox @bind-Checked="@EditViewModel.AgentModel.Active" Label="Ativo"></MudCheckBox>
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Disabled="EditViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async () => { await EditViewModel.EditAsync(); })">Editar</MudButton> 
+        </DialogActions>
+    </MudDialog>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    
+    [Parameter] public AgentModel AgentModel { get; set; }
+
+    protected override void OnInitialized()
+    {
+        EditViewModel.AgentModel = AgentModel;
+        EditViewModel.MudDialog = MudDialog;
+        base.OnInitialized();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await EditViewModel.getAgentTypes();
+        await base.OnInitializedAsync();
+    }
+}

@@ -47,18 +47,16 @@
         <MudTd DataLabel="Email">@context.Email</MudTd>
         <MudTd DataLabel="Data de Entrada">@context.DataEntry.Value.ToString("dd/MM/yyyy")</MudTd>
         <MudTd DataLabel="Contactos">@context.Contacts</MudTd>
-        <MudTd DataLabel="Nif">@context.Nif</MudTd>
+        <MudTd DataLabel="Nif">@(new string('0', 9 - context.Nif.ToString().Length) + context.Nif)</MudTd>
         <MudTd DataLabel="Tipo">@context.Type</MudTd>
         <MudTd DataLabel="Ativo" Style="text-align:center">
             <MudCheckBox Disabled="true" Checked="@context.Active" Color="Color.Secondary"></MudCheckBox>
         </MudTd>
-        @*
         <AuthorizeView Context="authContext" Policy="edit:agents">
             <MudTd Style="text-align:end" DataLabel="">
                 <MudIconButton Icon="@Icons.Filled.Edit" Size="Size.Small" OnClick="@(() => _viewViewModel.EditDialog(context))"></MudIconButton>
             </MudTd>
         </AuthorizeView>
-        *@
     </RowTemplate>
     <PagerContent>
         <MudTablePager RowsPerPageString="Número de dados:" InfoFormat="{first_item}-{last_item} de {all_items}"/>
