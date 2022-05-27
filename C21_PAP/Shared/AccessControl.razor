@@ -12,7 +12,7 @@
             </ActivatorContent>
             <ChildContent>
                 @*<MudMenuItem>Perfil</MudMenuItem>*@
-                <MudMenuItem OnClick="BeginSignOut">Log out</MudMenuItem>
+                <MudMenuItem OnClick="BeginSignOut" OnTouch="BeginSignOut">Log out</MudMenuItem>
             </ChildContent>
         </MudMenu>
     </Authorized>
@@ -22,7 +22,7 @@
 </AuthorizeView>
 
 @code{
-    private async Task BeginSignOut(MouseEventArgs args)
+    private async Task BeginSignOut(EventArgs args)
     {
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
