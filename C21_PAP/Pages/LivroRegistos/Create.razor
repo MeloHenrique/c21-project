@@ -1,0 +1,95 @@
+﻿@using C21_PAP.Components.Stepper
+@using C21_PAP.Services
+@using C21_PAP.ViewModels.LivroRegistos
+@inject CreateViewModel _createViewModel
+@inject ContractsService _contractsService
+
+<MudDialog Style="max-height: 100%; min-height: 90%; max-width: 100%; overflow: scroll;">
+    <DialogContent>
+        <Stepper Step="@_createViewModel.step" OnNext="_createViewModel.NextStep" OnBack="_createViewModel.BackStep">
+            <Step Title="Informações da Proriedade" Color="Color.Error" IsEnabled="true">
+                <MudForm @ref="@_createViewModel.Forms[0]" @bind-IsValid="@success" @bind-Errors="@errors">
+                    <MudGrid>
+                        <MudItem xs="12" md="6" lg="4">
+                            <MudTextField T="string" ValueChanged="_createViewModel.PostalCodeChanged" Label="Código Postal" MaxLength="7" Mask="@(new PatternMask("0000-000"))" Required="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="6" lg="4">
+                            <MudSelect T="string" @bind-Value="_createViewModel.CreateProcessModel.Property.District" Required="true" Label="Distrito" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (var e in _createViewModel.postalCodeInfo.Districts)
+                                {
+                                    <MudSelectItem Value="@e">@e</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="6" lg="4">
+                            <MudSelect T="string" @bind-Value="_createViewModel.CreateProcessModel.Property.County" Label="Concelho" Required="true" AnchorOrigin="Origin.BottomCenter">
+                                @foreach(var e in _createViewModel.postalCodeInfo.Counties)
+                                {
+                                    <MudSelectItem Value="@e">@e</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="6" lg="4">
+                            <MudSelect T="string" @bind-Value="_createViewModel.CreateProcessModel.Property.Parish" Label="Freguesia" Required="true">
+                                @foreach(var e in _createViewModel.postalCodeInfo.Parishes)
+                                {
+                                    <MudSelectItem Value="@e">@e</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="6" lg="4">
+                            <MudTextField T="string" @bind-Value="_createViewModel.CreateProcessModel.Property.Street" Label="Rua" Required="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="6" lg="4">
+                            <MudSelect @bind-Value="_createViewModel.CreateProcessModel.Property.PropertyTypeId" T="string" Required="true" Label="Tipo de Propriedade" AnchorOrigin="Origin.BottomCenter">
+                                
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
+                </MudForm>
+            </Step>
+            <Step Title="Contrato" Color="Color.Info">
+               @* <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField T="string" ValueChanged="PostalCodeChanged" Label="Código Postal" MaxLength="7" Mask="@(new PatternMask("0000-000"))" Required="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudSelect T="string" Required="true" Label="Negócio Visado" AnchorOrigin="Origin.BottomCenter"></MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudSelect T="string" Required="true" Label="Regime" AnchorOrigin="Origin.BottomCenter"></MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudNumericField Label="Valor da propriedade" Required="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField T="string" Label="Rua" Required="true"/>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudSelect T="string" Required="true" Label="Tipo de Propriedade" AnchorOrigin="Origin.BottomCenter"></MudSelect>
+                        </MudItem>
+                    </MudGrid>
+                </MudForm> *@
+            </Step>
+        </Stepper>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    bool success;
+    string[] errors = {};
+
+    int postalCode;
+
+    
+
+
+
+
+
+}

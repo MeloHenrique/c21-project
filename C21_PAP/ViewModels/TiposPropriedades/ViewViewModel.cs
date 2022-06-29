@@ -66,13 +66,16 @@ public class ViewViewModel : ViewModelBase
 
     public async Task<PaginatedResponse<TipoPropriedadeModel>?> GetDataAsync(TableState? state = null)
     {
-        TableRequestOptions options = new TableRequestOptions()
+        RequestOptions options = new RequestOptions()
         {
-            Page = state.Page,
-            PageSize = state.PageSize,
-            SortDirection = state.SortDirection,
-            SortLabel = state.SortLabel,
-            Search = SearchString
+            FilterOptions = new()
+            {
+                Page = state.Page,
+                PageSize = state.PageSize,
+                SortDirection = state.SortDirection,
+                SortLabel = state.SortLabel,
+                Search = SearchString
+            }
         };
 
         var paginatedResponse = await PropertyTypesService.GetAsync(options);

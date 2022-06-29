@@ -1,0 +1,15 @@
+﻿@page "/livro-registos"
+@layout MainLayout
+@using C21_PAP.Components.Stepper
+@using C21_PAP.ViewModels.LivroRegistos
+@inject AuthenticationStateProvider AuthState
+@inject ViewViewModel _viewViewModel
+
+<PageTitle>Livro de Registos</PageTitle>
+
+<MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Registo</MudButton>
+
+
+
+@code {
+}

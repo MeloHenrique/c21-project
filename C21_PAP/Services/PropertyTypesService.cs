@@ -14,7 +14,7 @@ public class PropertyTypesService
         _httpClient = httpClient;
     }
 
-    public async Task<PaginatedResponse<TipoPropriedadeModel>> GetAsync(TableRequestOptions options)
+    public async Task<PaginatedResponse<TipoPropriedadeModel>> GetAsync(RequestOptions options)
     {
         try
         {

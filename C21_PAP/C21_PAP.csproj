@@ -30,9 +30,4 @@
       <Compile Remove="Shared\Authorize\AuthorizeByPermission.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Pages\LivroRegistos" />
-      <Folder Include="ViewModels\LivroRegistos" />
-    </ItemGroup>
-
 </Project>

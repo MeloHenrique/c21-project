@@ -2,7 +2,7 @@
 
 namespace C21_PAP.Models;
 
-public class TableRequestOptions
+public class FilterOptions
 {
     public int Page { get; set; }
 

@@ -1,0 +1,36 @@
+﻿
+
+@code {
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public Color Color { get; set; }
+
+    [Parameter]
+    public bool IsEnabled { get; set; }
+    
+    [Parameter]
+    public bool Error { get; set; }
+    
+    [Parameter]
+    public string ErrorText { get; set; }
+    
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    [CascadingParameter]
+    Stepper Stepper { get; set; }
+    
+    public RenderFragment RenderStep(int e)
+    {
+        return @<MudTimelineItem Variant="Variant.Text" TimelineAlign="TimelineAlign.Start" Size="@(e == Stepper.Step ? Size.Medium : Size.Small)"  Elevation="@(e == Stepper.Step ? 5 : 2)" Color="@(Error == true ? Color.Error :  e == Stepper.Step ? Color.Primary : Color.Default)"><ItemContent><MudText Color="@(IsEnabled ? Color.Default : Color.Secondary)" Typo="Typo.button">@Title</MudText> </ItemContent> <ItemOpposite>@if(Error){<MudAlert Severity="@(Severity.Error)">@ErrorText</MudAlert>}</ItemOpposite></MudTimelineItem>;
+    }
+
+    protected override void OnInitialized()
+    {
+        Stepper.AddStep(this);
+    }
+
+}

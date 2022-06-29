@@ -14,7 +14,7 @@ public class ContactOriginsService
         _httpClient = httpClient;
     }
     
-    public async Task<PaginatedResponse<ContactOriginsModel>> GetAsync(TableRequestOptions options)
+    public async Task<PaginatedResponse<ContactOriginsModel>> GetAsync(RequestOptions options)
     {
         try
         {

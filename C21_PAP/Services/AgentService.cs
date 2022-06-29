@@ -15,7 +15,7 @@ public class AgentService
         _httpClient = httpClient;
     }
     
-    public async Task<PaginatedResponse<AgentModel>> GetAsync(TableRequestOptions options)
+    public async Task<PaginatedResponse<AgentModel>> GetAsync(RequestOptions options)
     {
         try
         {

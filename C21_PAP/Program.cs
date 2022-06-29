@@ -18,6 +18,7 @@ builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<PropertyTypesService>(client => client.BaseAddress = new Uri("https://property-types.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<ContactOriginsService>(client => client.BaseAddress = new Uri("https://contact-origin.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<AgentService>(client => client.BaseAddress = new Uri("https://agents.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+builder.Services.AddHttpClient<ContractsService>(client => client.BaseAddress = new Uri("https://contracts.henrique-melo.workers.dev")).AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
     .CreateClient("PropertyTypesAPI"));
@@ -52,6 +53,8 @@ builder.Services.AddScoped<C21_PAP.ViewModels.ContactOrigins.EditViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.Agents.ViewViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.Agents.CreateViewModel>();
 builder.Services.AddScoped<C21_PAP.ViewModels.Agents.EditViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.LivroRegistos.ViewViewModel>();
+builder.Services.AddScoped<C21_PAP.ViewModels.LivroRegistos.CreateViewModel>();
 builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();
