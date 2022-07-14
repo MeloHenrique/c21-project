@@ -12,7 +12,8 @@
             </MudForm>
         </DialogContent>
         <DialogActions>
-            <MudButton Disabled="EditViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async () => { await EditViewModel.EditAsync();})">Editar</MudButton>
+            <MudButton Disabled="EditViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" 
+                       OnClick="@(async () => { await EditViewModel.EditAsync();})">Editar</MudButton>
         </DialogActions>
     </MudDialog>
 </AuthorizeView>

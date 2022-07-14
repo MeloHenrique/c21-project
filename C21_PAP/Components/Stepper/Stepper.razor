@@ -1,27 +1,26 @@
-﻿<MudContainer Style="min-width: 940px;">
+﻿
     <CascadingValue Value="this">
         @ChildContent
-        <MudTimeline Style="min-height: 240px;" TimelinePosition="TimelinePosition.Right" TimelineOrientation="TimelineOrientation.Horizontal">
-            @for (int i = 0; i < Steps.Count; i += 1)
-            {
-                var copy = i;
-                @Steps[copy].RenderStep(copy);
-            }
-        </MudTimeline>
-
+        <MudContainer Style="overflow-x: auto;">
+            <MudTimeline Style=@("min-height: 240px; min-width: " + (Steps.Count * 180).ToString() + "px;") TimelinePosition="TimelinePosition.Right" TimelineOrientation="TimelineOrientation.Horizontal">
+                @for (int i = 0; i < Steps.Count; i += 1)
+                {
+                    var copy = i;
+                    @Steps[copy].RenderStep(copy);
+                }
+            </MudTimeline>
+        </MudContainer>
 
         @if (Steps.Count > Step)
         {
             @Steps[Step].ChildContent
         }
-
-
     </CascadingValue>
-    <MudStack Justify="Justify.SpaceBetween" Row="true">
+    <MudStack Justify="Justify.SpaceBetween" Row="true" Style="padding-top: 50px;">
         <MudButton Disabled="BackDisabled" Variant="Variant.Filled" Color="Color.Primary" OnClick="OnBack.InvokeAsync">Voltar</MudButton>
-        <MudButton Disabled="NextDisabled" Variant="Variant.Filled" Color="Color.Primary" OnClick="OnNext.InvokeAsync">Avançar</MudButton>
+        <MudButton Disabled="NextDisabled" Variant="Variant.Filled" Color="Color.Primary" OnClick="Next">Avançar</MudButton>
     </MudStack>
-</MudContainer>
+
 
 @code {
 
@@ -30,6 +29,9 @@
 
     [Parameter]
     public int Step { get; set; } = 0;
+    
+    [Parameter]
+    public EventCallback<int> StepChanged { get; set; }
 
     [Parameter]
     public bool BackDisabled { get; set; } = false;
@@ -42,6 +44,7 @@
 
     [Parameter]
     public EventCallback<bool> OnNext { get; set; }
+
 
     [Parameter]
     public EventCallback<bool> OnBack { get; set; }
@@ -61,6 +64,24 @@
             throw new ApplicationException("Step is greater than the number of steps");
         }
         base.OnAfterRender(firstRender);
+    }
+
+    private async Task Next()
+    {
+        var nextIndexSublist = Steps.Skip(Step + 1).ToList().FindIndex(x => x.IsEnabled);
+        if (Steps[Step].StepValidation == null || await Steps[Step].StepValidation.Invoke(Step))
+        {
+            if (nextIndexSublist == -1)
+            {
+                await OnNext.InvokeAsync(true);
+            }
+            else
+            {
+                Step = Steps.Skip(Step + 1).ToList().FindIndex(x => x.IsEnabled) + (Step + 1);
+                await StepChanged.InvokeAsync(Step);
+                await OnNext.InvokeAsync(false);
+            }
+        }
     }
 
 }

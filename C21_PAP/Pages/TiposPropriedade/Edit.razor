@@ -7,12 +7,14 @@
     <MudDialog>
         <DialogContent>
             <MudForm @ref="EditViewModel.form" @bind-IsValid="@EditViewModel.success" @bind-Errors="@EditViewModel.errors">
-                <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" @bind-Value="@EditViewModel.PropertyTypeModel.Name"/>
+                <MudTextField T="string" Label="Tipo de Propriedade" Required="true" RequiredError="Não pode estar vazio!" 
+                              @bind-Value="@EditViewModel.PropertyTypeModel.Name"/>
                 <MudCheckBox @bind-Checked="@EditViewModel.PropertyTypeModel.Active" Label="Ativo"></MudCheckBox>
             </MudForm>
         </DialogContent>
         <DialogActions>
-            <MudButton Disabled="EditViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(async () => { await EditViewModel.EditAsync();})">Editar</MudButton>
+            <MudButton Disabled="EditViewModel.IsBusy" Variant="Variant.Filled" Color="Color.Primary" 
+                    DisableElevation="true" OnClick="@(async () => { await EditViewModel.EditAsync();})">Editar</MudButton>
         </DialogActions>
     </MudDialog>
 </AuthorizeView>
@@ -30,5 +32,4 @@
         EditViewModel.MudDialog = MudDialog;
         base.OnInitialized();
     }
-
 }

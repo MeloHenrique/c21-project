@@ -15,9 +15,11 @@
 </AuthorizeView>
 
 
-<MudTable @ref="@_viewViewModel.table" ServerData="@(new Func<TableState, Task<TableData<TipoPropriedadeModel>>>(_viewViewModel.ServerReload))" Hover="true" FixedHeader="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" HorizontalScrollbar="true">
+<MudTable @ref="@_viewViewModel.table" ServerData="@(new Func<TableState, Task<TableData<TipoPropriedadeModel>>>(_viewViewModel.ServerReload))" 
+          Hover="true" FixedHeader="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" HorizontalScrollbar="true">
     <ToolBarContent>
-        <MudFab Disabled="_viewViewModel.isBusy" IconColor="Color.Primary" Color="Color.Transparent" StartIcon="@Icons.Material.Sharp.Refresh" Size="Size.Small" OnClick="@(async () => { await _viewViewModel.RefreshTable(); })"/>
+        <MudFab Disabled="_viewViewModel.isBusy" IconColor="Color.Primary" Color="Color.Transparent" StartIcon="@Icons.Material.Sharp.Refresh" Size="Size.Small" 
+                OnClick="@(async () => { await _viewViewModel.RefreshTable(); })"/>
         <MudSpacer/>
         <MudTextField T="string" ValueChanged="@(s => _viewViewModel.OnSearch(s))" Placeholder="Procurar" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-5">

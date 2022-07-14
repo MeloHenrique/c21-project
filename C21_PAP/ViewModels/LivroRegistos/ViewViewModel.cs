@@ -1,4 +1,5 @@
 ﻿using C21_PAP.Pages.LivroRegistos;
+using C21_PAP.Services;
 using MudBlazor;
 using MvvmBlazor.ViewModel;
 
@@ -7,7 +8,7 @@ namespace C21_PAP.ViewModels.LivroRegistos;
 public class ViewViewModel : ViewModelBase
 {
     readonly IDialogService DialogService;
-    
+
     public ViewViewModel(IDialogService dialogService)
     {
         DialogService = dialogService;

@@ -42,6 +42,7 @@ builder.Services.AddAuthorizationCore(options =>
     options.AddPolicy("read:agents", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "read:agents"));
     options.AddPolicy("edit:agents", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "edit:agents"));
     options.AddPolicy("create:agent", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:agent"));
+    options.AddPolicy("create:process", policy => policy.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/policy", "create:process"));
 });
 builder.Services.AddMvvm();
 builder.Services.AddScoped<C21_PAP.ViewModels.TiposPropriedades.CreateViewModel>();

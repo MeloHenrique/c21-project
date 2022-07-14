@@ -23,7 +23,9 @@ public class ProcessModel
 
 public class CreateProcessModel
 {
-    public CreatePropertyModel Property { get; set; }
-    
-    
+    public CreatePropertyModel Property { get; set; } = null!;
+
+    public CreateContractModel Contract { get; set; } = null!;
+
+
 }

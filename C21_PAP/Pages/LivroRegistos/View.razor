@@ -7,8 +7,9 @@
 
 <PageTitle>Livro de Registos</PageTitle>
 
-<MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Registo</MudButton>
-
+<AuthorizeView Policy="create:process">
+    <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Registo</MudButton>
+</AuthorizeView>
 
 
 @code {

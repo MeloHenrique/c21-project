@@ -8,7 +8,7 @@ using MvvmBlazor.ViewModel;
 
 namespace C21_PAP.ViewModels.TiposPropriedades;
 
-public class CreateViewModel : ViewModelBase
+public class  CreateViewModel : ViewModelBase
 {
     readonly PropertyTypesService PropertyTypesService;
     readonly ISnackbar Snackbar;

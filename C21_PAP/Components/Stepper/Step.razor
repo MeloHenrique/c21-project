@@ -20,6 +20,9 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     
+    [Parameter]
+    public Func<int, Task<bool>>? StepValidation { get; set; }
+    
     [CascadingParameter]
     Stepper Stepper { get; set; }
     
