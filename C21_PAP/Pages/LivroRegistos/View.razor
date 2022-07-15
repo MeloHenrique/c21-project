@@ -1,6 +1,7 @@
 ﻿@page "/livro-registos"
 @layout MainLayout
 @using C21_PAP.Components.Stepper
+@using C21_PAP.Models.Process
 @using C21_PAP.ViewModels.LivroRegistos
 @inject AuthenticationStateProvider AuthState
 @inject ViewViewModel _viewViewModel
@@ -11,6 +12,49 @@
     <MudButton Class="mb-2" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(_viewViewModel.CreateDialog)">Criar Registo</MudButton>
 </AuthorizeView>
 
-
-@code {
-}
+<MudTable @ref="@_viewViewModel.Table" ServerData="@(new Func<TableState, Task<TableData<ProcessModel>>>(_viewViewModel.ServerReload))" 
+          Hover="true" FixedHeader="true" Bordered="true" Dense="true" LoadingProgressColor="Color.Default" HorizontalScrollbar="true">
+    <ToolBarContent>
+        <MudFab Disabled="_viewViewModel.isBusy" IconColor="Color.Primary" Color="Color.Transparent" 
+                StartIcon="@Icons.Material.Sharp.Refresh" Size="Size.Small" OnClick="@(async() => { await _viewViewModel.RefreshTable(); })"/>
+        <MudSpacer/>
+        <MudTextField T="string" ValueChanged="@(s => _viewViewModel.OnSearch(s))" Placeholder="Procurar" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-5">
+        </MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Style="text-align:start">Id</MudTh>
+        <MudTh Style="text-align:center">Código Postal</MudTh>
+        <MudTh Style="text-align:center">Distrito</MudTh>
+        <MudTh Style="text-align:center">Concelho</MudTh>
+        <MudTh Style="text-align:center">Freguesia</MudTh>
+        <MudTh Style="text-align:center">Rua</MudTh>
+        <MudTh Style="text-align:center">Negócio Visado</MudTh>
+        <MudTh Style="text-align:center">Regime</MudTh>
+        <MudTh Style="text-align:center">Valor do Imóvel</MudTh>
+        <MudTh Style="text-align:center">Comissão</MudTh>
+        <MudTh Style="text-align:center">Estado do Contrato</MudTh>
+        <MudTh Style="text-align:center">Data</MudTh>
+        <MudTh Style="text-align:center">Chave</MudTh>
+        <MudTh Style="text-align:center">Obs</MudTh>
+    </HeaderContent>
+        <RowTemplate>
+            <MudTd HideSmall="true" DataLabel="Id">@context._Id</MudTd>
+            <MudTd DataLabel="Código Postal">@context.Property.PostalCode</MudTd>
+            <MudTd DataLabel="Distrito" Style="text-align:center">@context.Property.District</MudTd>
+            <MudTd DataLabel="Concelho" Style="text-align:center">@context.Property.County</MudTd>
+            <MudTd DataLabel="Freguesia" Style="text-align:center">@context.Property.Parish</MudTd>
+            <MudTd DataLabel="Rua" Style="text-align:center">@context.Property.Street</MudTd>
+            <MudTd DataLabel="Negócio Visado" Style="text-align:center">@context.Contract.TargetBusiness</MudTd>
+            <MudTd DataLabel="Regime" Style="text-align:center">@context.Contract.Regime</MudTd>
+            <MudTd DataLabel="Valor do Imóvel" Style="text-align:center">@context.Contract.PropertyValue €</MudTd>
+            <MudTd DataLabel="Comissão" Style="text-align:center">@(context.Contract.Commission) @(context.Contract.CommissionIsPercentage? "%" : "€")</MudTd>
+            <MudTd DataLabel="Estado do Contrato" Style="text-align:center">@context.Contract.Status</MudTd>
+            <MudTd DataLabel="Data" Style="text-align:center">@context.Contract.StartDate.ToShortDateString()</MudTd>
+            <MudTd DataLabel="Chave" Style="text-align:center">@context.Contract.Key</MudTd>
+            <MudTd DataLabel="Obs" Style="text-align:center">@(context.Contract.Observations ?? "-")</MudTd>
+        </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Número de dados:" InfoFormat="{first_item}-{last_item} de {all_items}"/>
+    </PagerContent>
+</MudTable>

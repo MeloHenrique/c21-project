@@ -2,9 +2,9 @@
 
 public class ContractModel
 {
-    public string _Id { get; set; }
+    public string? _Id { get; set; } = null!;
     
-    public ContractType ContractType { get; set; }
+    public string ContractType { get; set; }
     
     public string RaisingAgent { get; set; }
     
@@ -19,7 +19,7 @@ public class ContractModel
     public int PropertyValue { get; set; }
     
     public double Commission { get; set; }
-    public double CommissionIsPercentage { get; set; }
+    public bool CommissionIsPercentage { get; set; }
     
     public DateTime StartDate { get; set; }
     

@@ -10,7 +10,7 @@
 <AuthorizeView Policy="create:process">
     <MudDialog Style="max-height: 100%; min-height: 90%; max-width: 100%; overflow: scroll;">
         <DialogContent>
-            <Stepper NextDisabled="_createViewModel.IsBusy" BackDisabled="_createViewModel.IsBusy" OnNext="(finalized) => _createViewModel.NextStep(finalized)" OnBack="_createViewModel.BackStep">
+            <Stepper NextDisabled="_createViewModel.IsBusy" BackDisabled="_createViewModel.IsBusy" OnNext="(finalized) => _createViewModel.NextStep(finalized)">
                 <Step Title="Informações da Proriedade" IsEnabled="true" StepValidation="_createViewModel.NextValidation">
                     <MudForm @ref="@_createViewModel.Forms[0]" @bind-IsValid="@_createViewModel.Success[0]" @bind-Errors="@_createViewModel.Errors[0]">
                         <MudGrid>
@@ -129,10 +129,6 @@
                         </MudGrid>
                     </MudForm> 
                 </Step >
-                 <Step Title="Teste1" IsEnabled="false">
-                 </Step>                 
-                 <Step Title="Teste2" IsEnabled="true">
-                 </Step>
             </Stepper>
         </DialogContent>
     </MudDialog>
@@ -141,11 +137,15 @@
 @code {
 
     [CascadingParameter]
-    MudDialogInstance MudDialog { get; set; }
+    MudDialogInstance? MudDialog { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _createViewModel.MudDialog = MudDialog;
+        if (MudDialog != null)
+        {
+            _createViewModel.MudDialog = MudDialog;
+
+        }
         var options = new RequestOptions(){
             Active = true
         };

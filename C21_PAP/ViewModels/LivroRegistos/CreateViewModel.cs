@@ -20,7 +20,7 @@ public class CreateViewModel : ViewModelBase
     public MudDialogInstance MudDialog;
     public List<TipoPropriedadeModel> PropertyTypes = new();
     public List<AgentModel> Agents = new();
-    
+
     public List<bool> Success { get; set; } = new() {
         false,
         false
@@ -112,7 +112,15 @@ public class CreateViewModel : ViewModelBase
                 Snackbar.Add("Ocorreu um erro ao adicionar o processo!", Severity.Error);
             }
             MudDialog.Close(DialogResult.Ok(CreateProcessModel));
-            CreateProcessModel = new();
+            CreateProcessModel = new()
+            {
+                Contract = new()
+                {
+                    Months = 6
+                },
+                Property = new()
+            };
+            
         }
         IsBusy = false;
     }
@@ -123,14 +131,5 @@ public class CreateViewModel : ViewModelBase
         await Forms[step].Validate();
         IsBusy = false;
         return Success[step];
-    }
-
-    public Task<bool> BackStep()
-    {
-        /*if (step > 0)
-        {
-            step--;
-        }*/
-        return new Task<bool>(() => true);
     }
 }

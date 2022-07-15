@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json; 
+﻿using System.Net.Http.Json;
+using C21_PAP.Models;
 using C21_PAP.Models.PostalCodeInfo;
 using C21_PAP.Models.Process;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -33,6 +34,28 @@ public class ContractsService
             throw;
         }
     }
+    
+    public async Task<PaginatedResponse<ProcessModel>> GetAsync(RequestOptions options)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("/get-all/", options);
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<PaginatedResponse<ProcessModel>>();
+
+            if (result == null)
+            {
+                throw new ApplicationException("Error retrieving processes");
+            }
+            return result;
+        }
+        catch(AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            throw;
+        }
+    }
+
 
     public async Task<HttpResponseMessage> Create(CreateProcessModel model)
     {

@@ -8,12 +8,11 @@ namespace C21_PAP.Models.Process;
 
 public class ProcessModel
 {
-    public string _Id { get; set; }
-    
-    public PropertyModel Imovel { get; set; }
+    public int _Id { get; set; }
     
     public ContractModel Contract { get; set; }
-    
+    public PropertyModel Property { get; set; }
+
     public ProposalModel Proposal { get; set; }
     
     public CPCVModel Cpcv { get; set; }

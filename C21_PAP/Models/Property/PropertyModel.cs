@@ -1,8 +1,10 @@
-﻿namespace C21_PAP.Models.Property;
+﻿using C21_PAP.Models.TiposPropriedades;
+
+namespace C21_PAP.Models.Property;
 
 public class PropertyModel
 {
-    public string _Id { get; set; } = null!;
+    public string? _Id { get; set; } = null!;
 
     public string PostalCode { get; set; } = null!;
 
